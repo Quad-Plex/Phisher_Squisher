@@ -44,6 +44,10 @@ If proxies need to be used, uncomment line 25 (deleting the #) and add proxies a
 
 # <div align="center"> Tips
 - You must have the names library installed. Either install it in virtualenv or install it on your system by using pip install names (in terminal)
+	
+- For maximum efficiency, increase the number of threads working until you see '429' (Too Many Requests) appear in the 'Status' output - this means you're already saturating the maximum requests the server allows per single connection
+	
+- If you receive a 403 (Forbidden) Error this most likely means that either the Admin has manually blocked your IP from accessing their site, or an automatic anti spam detection has tripped. To circumvent this, simply use a VPN connection to appear as a new user to the site.
 
 - Watch this video if you need help on getting the URL and form data. Start watching [here](https://youtu.be/UtNYzv8gLbs?t=40).
 # <div align="center"> Inspirations
