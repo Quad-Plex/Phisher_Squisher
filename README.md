@@ -22,8 +22,6 @@
 	
 # <div align="center"> Usage
 
-# Python
-
 **Python 3.5.3 or higher is recommended**
 
 Navigate to line 31, and replace "REPLACE WITH URL" with URL to the login query.
