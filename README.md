@@ -26,12 +26,12 @@
 
 **Python 3.5.3 or higher is recommended**
 
-Navigate to line 31, and replace "REPLACE WITH URL" with URL to the login query.
+Navigate to line 37, and replace "REPLACE WITH URL" with URL to the login query.
 
 ```Python
     url = 'REPLACE WITH URL'
 ```
-Navigate to lines 84-86 and replace "login" and "password" with the parameters specified in the POST request. You're free to add additional parameters aswell
+Navigate to lines 90-91 and replace "login" and "password" with the parameters specified in the POST request. You're free to add additional parameters aswell
 
 ```Python
     req=s.post(url, allow_redirects=False, verify=False, data={
@@ -39,7 +39,7 @@ Navigate to lines 84-86 and replace "login" and "password" with the parameters s
 		'password': password,
 	})
  ```
-If proxies need to be used, uncomment line 25 (deleting the #) and add proxies as needed lines 17.
+If proxies need to be used, uncomment line 31 (deleting the #) and add proxies as needed in line 23.
 ```Python
 #s.proxies = proxies
 ```
