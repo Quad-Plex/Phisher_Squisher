@@ -17,7 +17,9 @@
 - **NEW!!** Multi-Threading! Spawn multiple threads with an http.post request every 1 second by typing '+' and pressing Enter
 - **NEW!** more colorful output including status code and tracking of num. of sent requests
 
-
+# <div align="center"> Screenshot
+![image](https://user-images.githubusercontent.com/39552449/135675406-7c8eabae-33d9-4fe0-bcca-4571c8745161.png)
+	
 # <div align="center"> Usage
 
 # Python
