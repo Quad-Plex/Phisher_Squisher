@@ -14,6 +14,9 @@
 - Proxies can be used to prevent being IP blocked or to prevent IP leakage.
 - Works on sites with HTTPS.
 - Blocks redirects.
+- **NEW!!** Multi-Threading! Spawn multiple threads with an http.post request every 1 second by typing '+' and pressing Enter
+- **NEW!** more colorful output including status code and tracking of num. of sent requests
+
 
 # <div align="center"> Usage
 
@@ -21,55 +24,29 @@
 
 **Python 3.5.3 or higher is recommended**
 
-Navigate to line 19, and replace "REPLACE WITH URL" with URL to the login query.
+Navigate to line 31, and replace "REPLACE WITH URL" with URL to the login query.
 
 ```Python
     url = 'REPLACE WITH URL'
 ```
-Navigate to lines 89-92 and replace "login_email" and "login_password" with the parameters specified in the POST request.
+Navigate to lines 84-86 and replace "login" and "password" with the parameters specified in the POST request. You're free to add additional parameters aswell
 
 ```Python
-    s.post(url, allow_redirects=False, verify=False, data={
-		'login_email': username,
-		'login_password': password,
+    req=s.post(url, allow_redirects=False, verify=False, data={
+		'login': username,
+		'password': password,
 	})
  ```
-If proxies need to be used, uncomment line 13 (deleting the #) and add proxies as needed lines 5-8.
+If proxies need to be used, uncomment line 25 (deleting the #) and add proxies as needed lines 17.
 ```Python
 #s.proxies = proxies
 ```
 
-# Jupyter Notebook, Google Colaboratory, Kaggle, AWS Sagemaker, etc
-
-**Ready to use Colaboratory version [here](https://colab.research.google.com/drive/1MidYKosEovRzeUNP8iMIo2NG9vgI-La_).**
-
-**Note: Google Colaboratory has a maximum time limit of 12 hours per session. Usually less if you're not using GPU or TPU.**
-
-Navigate to line 19 on cell 2, and replace "REPLACE WITH URL" with URL to the login query.
-
-```Python
-    url = 'REPLACE WITH URL'
-```
-Navigate to lines 89-92 on cell 2 and replace "login_email" and "login_password" with the parameters specified in the POST request.
-
-```Python
-    s.post(url, allow_redirects=False, verify=False, data={
-		'login_email': username,
-		'login_password': password,
-	})
- ```
-If proxies need to be used, uncomment line 13 on cell 2 (deleting the #) and add proxies as needed lines 5-8.
-```Python
-#s.proxies = proxies
-```
 # <div align="center"> Tips
 - You must have the names library installed. Either install it in virtualenv or install it on your system by using pip install names (in terminal)
 
+- Watch this video if you need help on getting the URL and form data. Start watching [here](https://youtu.be/UtNYzv8gLbs?t=40).
 # <div align="center"> Inspirations
-- Took inspiration from Engineer man's video on [spamming a scammer](https://www.youtube.com/watch?v=UtNYzv8gLbs). 
-
-- Take a look at his repo [here](https://github.com/engineer-man/youtube/tree/master/033).
-
-- Watch his video if you need help on getting the URL and form data. Start watching [here](https://youtu.be/UtNYzv8gLbs?t=40).
+- Thanks to the original repo by W8TERM3LON [here](https://github.com/W8TERM3LON/Phisher_Squisher).
 
 # <div align="center"> PLEASE DO NOT USE THIS FOR MALICIOUS PURPOSES.
