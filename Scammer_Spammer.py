@@ -1,5 +1,5 @@
 #Import Libraries
-import names, requests, random, string, os, urllib3, threading, time
+import names, requests, random, string, os, urllib3, threading, time, sys
 from multiprocessing import Value
 
 #for colorful text
@@ -34,7 +34,7 @@ def sendRequests():
     global counter
     running = True
 
-    print('Thread ' + bcolors.YELLOW + str(threads) + bcolors.ENDC + ' started')
+    print('Thread ' + bcolors.YELLOW + str(threads.value) + bcolors.ENDC + ' started')
     while running:
         #Generate random first/last name
         first = names.get_first_name().lower()
@@ -89,7 +89,7 @@ def sendRequests():
         print()
         print(bcolors.CYAN + "Sending username: " + bcolors.YELLOW + username + bcolors.CYAN + " and Password: " + bcolors.YELLOW + password + bcolors.CYAN)
         print("To: " + req.url)
-        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " times with " + bcolors.YELLOW + str(threads) + bcolors.FAIL + " threads" + bcolors.ENDC)
+        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " times with " + bcolors.YELLOW + str(threads.value) + bcolors.FAIL + " threads" + bcolors.ENDC)
     
         if req.ok:
             with counter.get_lock():
@@ -98,13 +98,18 @@ def sendRequests():
         else:
             print(bcolors.BLUE + "STATUS: " + bcolors.FAIL + str(req.status_code) + bcolors.ENDC)
 
+        time.sleep(1)
         with stopflag.get_lock():
+            #if stopflag is 1, one thread will recognize this and terminate
             if stopflag.value == 1:
                 running = False
                 stopflag.value = 0
-        time.sleep(1)
+                with threads.get_lock():
+                    #thread safe decrement for threads counter
+                    threads.value -= 1
 
 if __name__ == '__main__':
+    start_time = time.time()
     print("#####################################")
     print("##########                 ##########")
     print("##########    Quad_Plex'   ##########")
@@ -120,28 +125,30 @@ if __name__ == '__main__':
     print("SCREW SCAMMERS!!!!")
 
     global counter
-    counter = Value ('i', 1)
+    counter = Value('i', 1)
 
     global stopflag
-    stopflag = Value ('i', 0)
+    stopflag = Value('i', 0)
     
     global threads
-    threads = 0
+    threads = Value('i', 0)
 
     while True:
         action = input()
         if action == "+":
             #spawn a new thread and increase counter
             thr = threading.Thread(target=sendRequests, args=(), kwargs={})
-            threads += 1
+            with threads.get_lock():
+                threads.value += 1
             thr.start()
         elif action == "-":
             #set the stopflag to 1, the first thread to grab this lock Value will exit and set it back to 0
             with stopflag.get_lock():
                 stopflag.value = 1
-            threads -= 1
-
+        time.sleep(1)
         #exit if all threads are stopped
-        if threads == 0:
-            break
-            
+        with threads.get_lock():
+            if threads.value == 0:
+                print()
+                sys.exit(str(counter.value) + " requests sent over a period of " + str((time.time() - start_time)) + " seconds")
+
