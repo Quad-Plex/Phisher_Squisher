@@ -13,6 +13,12 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+http_codes = {
+    200: bcolors.GREEN + "200 OK" + bcolors.ENDC,
+    403: bcolors.FAIL + "403 FORBIDDEN" + bcolors.ENDC,
+    429: bcolors.FAIL + "429 TOO MANY REQUESTS" + bcolors.ENDC
+    }
+
 #Add proxies here. Need both HTTP and HTTPS.
 proxies = {}
 
@@ -81,22 +87,23 @@ def sendRequests():
         #Make post request
         #Replace parameters as needed.
         req=s.post(url, allow_redirects=False, verify=False, data={
-                    'login': username,
-                    'password': password,
+            'login': username,
+            'password': password
         })
         
         #Print Info
         print()
         print(bcolors.CYAN + "Sending username: " + bcolors.YELLOW + username + bcolors.CYAN + " and Password: " + bcolors.YELLOW + password + bcolors.CYAN)
         print("To: " + req.url)
-        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " times with " + bcolors.YELLOW + str(threads.value) + bcolors.FAIL + " threads" + bcolors.ENDC)
-    
+        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " requests sent, " + bcolors.YELLOW + str(threads.value) + bcolors.FAIL + " threads active" + bcolors.ENDC)
+        
+        #increment the counter on successful request
         if req.ok:
             with counter.get_lock():
                 counter.value += 1
-            print(bcolors.BLUE + "STATUS: " + bcolors.GREEN + str(req.status_code) + bcolors.ENDC)
-        else:
-            print(bcolors.BLUE + "STATUS: " + bcolors.FAIL + str(req.status_code) + bcolors.ENDC)
+        
+        return_code = http_codes.get(req.status_code, bcolors.YELLOW + str(req.status_code) + bcolors.ENDC)
+        print(bcolors.BLUE + "STATUS: " + return_code + bcolors.ENDC)
 
         time.sleep(1)
         with stopflag.get_lock():
