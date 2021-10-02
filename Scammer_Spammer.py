@@ -1,6 +1,7 @@
 #Import Libraries
 import names, requests, random, string, os, urllib3, threading, time, sys
 from multiprocessing import Value
+from collections import deque
 
 #for colorful text
 class bcolors:
@@ -16,6 +17,7 @@ class bcolors:
 http_codes = {
     200: bcolors.GREEN + "200 OK" + bcolors.ENDC,
     403: bcolors.FAIL + "403 FORBIDDEN" + bcolors.ENDC,
+    420: bcolors.GREEN + "blaze it everyday" + bcolors.ENDC,
     429: bcolors.FAIL + "429 TOO MANY REQUESTS" + bcolors.ENDC
     }
 
@@ -36,10 +38,24 @@ random.seed = (os.urandom(1024))
 #Replace with Scammer URL (Usually ends in .PHP but doesn't have to)
 url = 'REPLACE WITH URL'
 
+def averageDaemon():
+    global count_per_sec
+    count_per_sec = 0.0
+    oldcount = 0
+    average_deque = deque([0],maxlen=10)
+    print("AverageDaemon initialized...")
+    while True:
+        time.sleep(1)
+        average_deque.append(counter.value - oldcount)
+        count_per_sec = sum(average_deque) / len(average_deque)
+        oldcount = counter.value
+
+
 def sendRequests():
     global counter
+    global count_per_sec
     running = True
-
+    
     print('Thread ' + bcolors.YELLOW + str(threads.value) + bcolors.ENDC + ' started')
     while running:
         #Generate random first/last name
@@ -91,16 +107,16 @@ def sendRequests():
             'password': password
         })
         
-        #Print Info
-        print()
-        print(bcolors.CYAN + "Sending username: " + bcolors.YELLOW + username + bcolors.CYAN + " and Password: " + bcolors.YELLOW + password + bcolors.CYAN)
-        print("To: " + req.url)
-        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " requests sent, " + bcolors.YELLOW + str(threads.value) + bcolors.FAIL + " threads active" + bcolors.ENDC)
-        
         #increment the counter on successful request
         if req.ok:
             with counter.get_lock():
                 counter.value += 1
+
+        #Print Info
+        print()
+        print(bcolors.CYAN + "Sending username: " + bcolors.YELLOW + username + bcolors.CYAN + " and Password: " + bcolors.YELLOW + password + bcolors.CYAN)
+        print("To: " + req.url)
+        print(bcolors.YELLOW + str(counter.value) + bcolors.FAIL + " requests sent, " + bcolors.YELLOW + str('%.2f' % count_per_sec) + bcolors.FAIL + " req/second, " + bcolors.YELLOW + str(threads.value) + bcolors.FAIL + " threads active" + bcolors.ENDC)
         
         return_code = http_codes.get(req.status_code, bcolors.YELLOW + str(req.status_code) + bcolors.ENDC)
         print(bcolors.BLUE + "STATUS: " + return_code + bcolors.ENDC)
@@ -130,6 +146,7 @@ if __name__ == '__main__':
     print("    when the threadcount reaches 0, the script stops automatically")
     print()
     print("SCREW SCAMMERS!!!!")
+    print()
 
     global counter
     counter = Value('i', 1)
@@ -139,6 +156,11 @@ if __name__ == '__main__':
     
     global threads
     threads = Value('i', 0)
+
+    global count_per_sec
+    
+    average_daemon = threading.Thread(target=averageDaemon, args=(), kwargs={}, daemon=True)
+    average_daemon.start()
 
     while True:
         action = input()
