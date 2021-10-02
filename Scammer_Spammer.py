@@ -42,12 +42,12 @@ def averageDaemon():
     global count_per_sec
     count_per_sec = 0.0
     oldcount = 0
-    average_deque = deque([0],maxlen=10)
+    average_deque = deque([0],maxlen=25)
     print("AverageDaemon initialized...")
     while True:
-        time.sleep(1)
+        time.sleep(0.2)
         average_deque.append(counter.value - oldcount)
-        count_per_sec = sum(average_deque) / len(average_deque)
+        count_per_sec = (sum(average_deque) / len(average_deque)) * 5
         oldcount = counter.value
 
 
@@ -174,7 +174,7 @@ if __name__ == '__main__':
             #set the stopflag to 1, the first thread to grab this lock Value will exit and set it back to 0
             with stopflag.get_lock():
                 stopflag.value = 1
-        time.sleep(1)
+        time.sleep(0.5)
         #exit if all threads are stopped
         with threads.get_lock():
             if threads.value == 0:
