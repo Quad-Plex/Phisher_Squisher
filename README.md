@@ -15,22 +15,22 @@
 - Works on sites with HTTPS.
 - Blocks redirects.
 - **NEW!!** Multi-Threading! Spawn multiple threads with an http.post request every 1 second by typing '+' and pressing Enter
-- **NEW!** more colorful output including status code and tracking of num. of sent requests
+- **NEW!!** more colorful output including status code, tracking of num. of sent requests, average requests/second and more
 
 # <div align="center"> Screenshots
-![image](https://user-images.githubusercontent.com/39552449/135692274-f3c454dd-2553-44cf-adcd-a8efc0651a8c.png)
+![image](https://user-images.githubusercontent.com/39552449/135697138-bff63545-4b17-47f0-86e3-693738e03b55.png)
 
 	
 # <div align="center"> Usage
 
 **Python 3.5.3 or higher is recommended**
 
-Navigate to line 37, and replace "REPLACE WITH URL" with URL to the login query.
+Navigate to line 39, and replace "REPLACE WITH URL" with URL to the login query.
 
 ```Python
     url = 'REPLACE WITH URL'
 ```
-Navigate to lines 90-91 and replace "login" and "password" with the parameters specified in the POST request. You're free to add additional parameters aswell
+Navigate to lines 106-107 and replace "login" and "password" with the parameters specified in the POST request. You're free to add additional parameters aswell
 
 ```Python
     req=s.post(url, allow_redirects=False, verify=False, data={
@@ -38,7 +38,7 @@ Navigate to lines 90-91 and replace "login" and "password" with the parameters s
 		'password': password,
 	})
  ```
-If proxies need to be used, uncomment line 31 (deleting the #) and add proxies as needed in line 23.
+If proxies need to be used, uncomment line 33 (deleting the #) and add proxies as needed in line 25.
 ```Python
 #s.proxies = proxies
 ```
