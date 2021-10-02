@@ -17,9 +17,8 @@
 - **NEW!!** Multi-Threading! Spawn multiple threads with an http.post request every 1 second by typing '+' and pressing Enter
 - **NEW!!** more colorful output including status code, tracking of num. of sent requests, average requests/second and more
 
-# <div align="center"> Screenshots
-![image](https://user-images.githubusercontent.com/39552449/135697138-bff63545-4b17-47f0-86e3-693738e03b55.png)
-
+# <div align="center"> Screenshot
+![image](https://user-images.githubusercontent.com/39552449/135698024-4fff1846-9c60-4fe6-a463-bc108f93398a.png)
 	
 # <div align="center"> Usage
 
