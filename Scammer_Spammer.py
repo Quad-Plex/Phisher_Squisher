@@ -34,6 +34,7 @@ http_codes = {
     420: Colors.GREEN + "420 blaze it everyday" + Colors.ENDC,
     429: Colors.FAIL + "429 TOO MANY REQUESTS" + Colors.ENDC,
     500: Colors.FAIL + "500 INTERNAL SERVER ERROR" + Colors.ENDC,
+    502: Colors.FAIL + "502 BAD GATEWAY" + Colors.ENDC,
     503: Colors.FAIL + "503 SERVICE UNAVAILABLE GET FUCKED!!" + Colors.ENDC
 }
 
@@ -204,7 +205,7 @@ if __name__ == '__main__':
     print("    press '+' to add threads")
     print("    press '-' to remove threads")
     print("    press '*' to remove ALL threads")
-    print("    press '/' to terminate")
+    print("    press 'q' to terminate")
     print()
     print("SCREW SCAMMERS!!!!")
     print()
@@ -233,6 +234,7 @@ if __name__ == '__main__':
                 threads.append(thr)
                 thr.start()
             elif event.key == keyboard.KeyCode.from_char("-"):
+                print("Removing thread #" + str(len(threads)) + "...")
                 # set the stopflag to 1, the first thread to grab this lock Value will exit and set it back to 0
                 with stopFlag.get_lock():
                     stopFlag.value = 1
@@ -241,7 +243,7 @@ if __name__ == '__main__':
                 print("!!Stopping all threads...!!")
                 print("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 stopAllFlag.value = 1
-            elif event.key == keyboard.KeyCode.from_char("/"):
+            elif event.key == keyboard.KeyCode.from_char("q"):
                 print()
                 sys.exit(str(counter.value) + " requests sent over a period of " + str(
                     (time.time() - start_time)) + " seconds")
