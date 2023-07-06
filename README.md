@@ -19,6 +19,7 @@
 
 ### Planned Features/Ideas
 - Easier method of replacing URL/payload/cookie data
+- http-code statistics to keep better track of results
 - GUI interface
 - saving profiles to re-use certain configurations
 - Automatic rate-limiting/multi-threading determined by request throughput
