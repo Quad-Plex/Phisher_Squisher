@@ -54,7 +54,7 @@ global threads
 threads = []
 
 # Replace with Scammer URL (Usually ends in .PHP but doesn't have to)
-url = 'REPLACE WITH URL'
+url = 'https://cyberline.live/register'
 
 # Add headers as "key": "value" pairs
 # The user-agent is a basic example and seems to work well
@@ -64,7 +64,9 @@ headers = {
 }
 
 # Add cookies as "key": "value" pairs
-cookies = {}
+cookies = {
+    "PHPSESSID": "b324uq1llhkqd78slouhsavsq0"
+}
 
 # Add proxies here. Need both HTTP and HTTPS.
 proxies = {}
@@ -139,8 +141,12 @@ def sendrequests():
 
         # The actual POST form payload data
         payload = {
-            'login': generated_email,
-            'password': password,
+            "fos_user_registration_form[username]": first + last,
+            "fos_user_registration_form[email]": generated_email,
+            "fos_user_registration_form[plainPassword][first]": password,
+            "fos_user_registration_form[plainPassword][second]": password,
+            "do_login": "",
+            "fos_user_registration_form[_token]": "DXoZUjCNpelfALMd3Cnl9wLu_rBGHC7iBUtg_7HD2a4"
         }
 
         # Disables HTTPS warning
@@ -159,7 +165,7 @@ def sendrequests():
         print()
         print(
             Colors.CYAN + "Sending username: " + Colors.YELLOW + generated_email +
-            Colors.CYAN + "and password: " + Colors.YELLOW + password + Colors.CYAN)
+            Colors.CYAN + " and password: " + Colors.YELLOW + password + Colors.CYAN)
         print("To: " + req.url)
         print(Colors.YELLOW + str(counter.value) + Colors.FAIL + " requests sent, " + Colors.YELLOW +
               str('%.1f' % count_per_sec) + Colors.FAIL + " req/second, " + Colors.YELLOW + str(len(threads)) +
