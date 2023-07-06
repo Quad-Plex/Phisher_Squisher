@@ -19,6 +19,7 @@
 
 ### Planned Features/Ideas
 - Easier method of replacing URL/payload/cookie data
+- continuous output in the console instead of scrolling output from the threads (would give more info when threads are stuck)
 - http-code statistics to keep better track of results
 - GUI interface
 - saving profiles to re-use certain configurations
