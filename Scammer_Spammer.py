@@ -55,7 +55,7 @@ global threads
 threads = []
 
 # Replace with Scammer URL (Usually ends in .PHP but doesn't have to)
-url = 'https://cyberline.live/register'
+url = 'REPLACE WITH URL'
 
 # Add headers as "key": "value" pairs
 # The user-agent is a basic example and seems to work well
@@ -65,9 +65,7 @@ headers = {
 }
 
 # Add cookies as "key": "value" pairs
-cookies = {
-    "PHPSESSID": "b324uq1llhkqd78slouhsavsq0"
-}
+cookies = {}
 
 # Add proxies here. Need both HTTP and HTTPS.
 proxies = {}
@@ -148,12 +146,8 @@ def sendrequests():
 
         # The actual POST form payload data
         payload = {
-            "fos_user_registration_form[username]": first + last,
-            "fos_user_registration_form[email]": generated_email,
-            "fos_user_registration_form[plainPassword][first]": password,
-            "fos_user_registration_form[plainPassword][second]": password,
-            "do_login": "",
-            "fos_user_registration_form[_token]": "_0hATCXesDeguJHblCcFJGlk62LAmH1yN8Ox9Le6mhs"
+            'login': generated_email,
+            'password': password,
         }
 
         # Disables HTTPS warning
