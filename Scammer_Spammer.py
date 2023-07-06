@@ -73,11 +73,21 @@ cookies = {
 proxies = {}
 
 
-def backgroundaemon():
+def averagedaemon():
     global count_per_sec
     count_per_sec = 0.0
     oldcount = 0
-    average_deque = deque([0], maxlen=25)
+    average_deque = deque([0], maxlen=100)
+    print("AverageDaemon initialized...")
+    while True:
+        # calculate the average num of requests
+        average_deque.append(counter.value - oldcount)
+        count_per_sec = (sum(average_deque) / len(average_deque)) * 10
+        oldcount = counter.value
+        time.sleep(0.1)
+
+
+def backgrounddaemon():
     print("BackgroundDaemon initialized...")
     while True:
         # thread-table cleanup
@@ -85,11 +95,7 @@ def backgroundaemon():
             if not thread.is_alive():
                 thread.join()
                 threads.remove(thread)
-        # calculate the average num of requests
-        average_deque.append(counter.value - oldcount)
-        count_per_sec = (sum(average_deque) / len(average_deque)) * 5
-        oldcount = counter.value
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 
 def sendrequests():
@@ -147,7 +153,7 @@ def sendrequests():
             "fos_user_registration_form[plainPassword][first]": password,
             "fos_user_registration_form[plainPassword][second]": password,
             "do_login": "",
-            "fos_user_registration_form[_token]": "DXoZUjCNpelfALMd3Cnl9wLu_rBGHC7iBUtg_7HD2a4"
+            "fos_user_registration_form[_token]": "_0hATCXesDeguJHblCcFJGlk62LAmH1yN8Ox9Le6mhs"
         }
 
         # Disables HTTPS warning
@@ -221,7 +227,10 @@ if __name__ == '__main__':
 
     global count_per_sec
 
-    background_daemon = threading.Thread(target=backgroundaemon, args=(), kwargs={}, daemon=True)
+    average_daemon = threading.Thread(target=averagedaemon, args=(), kwargs={}, daemon=True)
+    average_daemon.start()
+
+    background_daemon = threading.Thread(target=backgrounddaemon, args=(), kwargs={}, daemon=True)
     background_daemon.start()
 
     while True:
